@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roast My Prompt Battle – VYOM 2026 | GfG Campus Body RIU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      background: #1a1a1a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── TOPNAV ── */
+    .topnav {
+      background: #1a1a1a;
+      border-bottom: 1px solid #2e2e2e;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 54px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    .gfg-logo { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .gfg-logo .icon {
+      width: 36px; height: 36px;
+      background: #2f8d46;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 900; color: #fff; letter-spacing: -1px;
+    }
+    .gfg-logo .text { font-size: 15px; font-weight: 600; color: #e0e0e0; }
+    .topnav-right { display: flex; align-items: center; gap: 16px; }
+    .topnav-right .theme-toggle {
+      background: none; border: none; font-size: 18px; cursor: pointer; color: #888;
+      padding: 4px; border-radius: 6px; transition: color 0.2s;
+    }
+    .topnav-right .theme-toggle:hover { color: #e0e0e0; }
+    .topnav-right .avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #333; display: flex; align-items: center;
+      justify-content: center; font-size: 13px; color: #aaa; cursor: pointer;
+    }
+    .signin-btn {
+      background: transparent; border: 1px solid #444; color: #e0e0e0;
+      padding: 7px 20px; border-radius: 7px; font-size: 13px; cursor: pointer;
+      font-family: inherit; transition: border-color 0.2s, color 0.2s;
+    }
+    .signin-btn:hover { border-color: #2f8d46; color: #2f8d46; }
+
+    /* ── EVENT BANNER ── */
+    .event-banner {
+      background: #222;
+      border-bottom: 1px solid #2e2e2e;
+      padding: 22px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .banner-left { display: flex; align-items: center; gap: 20px; }
+    .event-logo-box {
+      width: 76px; height: 76px;
+      background: #2e2e2e;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px;
+      border: 1px solid #3a3a3a;
+      flex-shrink: 0;
+    }
+    .event-title { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 5px; }
+    .event-powered { font-size: 13px; color: #888; }
+    .event-powered strong { color: #ccc; font-weight: 500; }
+    .register-btn {
+      background: #2f8d46; border: none; color: #fff;
+      padding: 11px 30px; border-radius: 8px; font-size: 14px;
+      font-weight: 600; cursor: pointer; font-family: inherit;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+    .register-btn:hover { background: #27783c; }
+    .register-btn:active { transform: scale(0.98); }
+
+    /* ── PAGE LAYOUT ── */
+    .page-wrap { display: flex; max-width: 1280px; margin: 0 auto; }
+
+    /* ── LEFT SIDEBAR NAV ── */
+    .left-nav {
+      width: 210px;
+      flex-shrink: 0;
+      border-right: 1px solid #2e2e2e;
+      padding: 28px 0;
+      position: sticky;
+      top: 54px;
+      height: calc(100vh - 54px);
+      overflow-y: auto;
+    }
+    .left-nav a {
+      display: block;
+      padding: 11px 26px;
+      font-size: 14px;
+      color: #888;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.15s;
+    }
+    .left-nav a:hover { color: #e0e0e0; background: #242424; }
+    .left-nav a.active {
+      color: #fff;
+      border-left: 3px solid #2f8d46;
+      background: #242424;
+      font-weight: 500;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main-content { flex: 1; padding: 36px 44px; min-width: 0; }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 54px; scroll-margin-top: 70px; }
+    .sec-title {
+      font-size: 22px; font-weight: 600; color: #fff;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #2e2e2e;
+      margin-bottom: 22px;
+    }
+    .body-text { font-size: 14px; line-height: 1.85; color: #bbb; margin-bottom: 14px; }
+    .body-text strong { color: #e0e0e0; font-weight: 500; }
+
+    /* ── TIMELINE ── */
+    .tl-wrap { position: relative; padding-left: 30px; }
+    .tl-wrap::before {
+      content: ''; position: absolute;
+      left: 7px; top: 14px; bottom: 0;
+      width: 1px; background: #2e2e2e;
+    }
+    .tl-item { position: relative; margin-bottom: 16px; }
+    .tl-dot {
+      position: absolute; left: -30px; top: 21px;
+      width: 15px; height: 15px; border-radius: 50%;
+      background: #2979ff; border: 2px solid #1a1a1a; z-index: 1;
+    }
+    .tl-card {
+      background: #242424; border: 1px solid #2e2e2e;
+      border-radius: 10px; padding: 18px 22px;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      transition: border-color 0.2s;
+    }
+    .tl-card:hover { border-color: #3a3a3a; }
+    .tl-card-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+    .tl-card-meta { font-size: 13px; color: #777; line-height: 1.75; }
+    .tl-card-meta b { color: #aaa; font-weight: 400; }
+    .vd-btn {
+      background: transparent; border: 1px solid #3a3a3a; color: #bbb;
+      padding: 8px 20px; border-radius: 7px; font-size: 13px;
+      cursor: pointer; font-family: inherit; white-space: nowrap;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .vd-btn:hover { border-color: #2f8d46; color: #2f8d46; }
+
+    /* ── PILLS ── */
+    .pill {
+      display: inline-block; font-size: 11px;
+      padding: 3px 11px; border-radius: 12px; white-space: nowrap;
+    }
+    .pill-g { background: #1e2a1e; color: #3db360; border: 1px solid #2f4d30; }
+    .pill-y { background: #2a2a1e; color: #c9a227; border: 1px solid #4a3e10; }
+    .pill-r { background: #2a1e1e; color: #e05555; border: 1px solid #4a2020; }
+    .pill-b { background: #1e1e2e; color: #6e99f5; border: 1px solid #2a2e4a; }
+
+    /* ── FUNNEL ── */
+    .funnel-section { margin-bottom: 28px; }
+    .funnel-label-row { font-size: 11px; color: #555; margin-bottom: 10px; font-weight: 500; letter-spacing: 0.05em; }
+    .funnel-bar {
+      height: 52px; border-radius: 8px;
+      display: flex; align-items: center;
+      padding: 0 20px; font-size: 13px; font-weight: 500; color: #ccc;
+      margin-bottom: 4px; position: relative; overflow: hidden;
+    }
+    .funnel-bar::before {
+      content: ''; position: absolute; left: 0; top: 0;
+      width: 3px; height: 100%; background: #2f8d46; border-radius: 8px 0 0 8px;
+    }
+    .funnel-bar.gold::before { background: #f6c44a; }
+    .funnel-arrow {
+      font-size: 11px; color: #2f8d46; font-weight: 500;
+      margin: 4px 0 4px 20px; display: block;
+    }
+    .funnel-arrow.gold { color: #f6c44a; }
+
+    /* ── ROUND CARDS ── */
+    .round-card {
+      background: #242424; border: 1px solid #2e2e2e;
+      border-radius: 10px; padding: 20px 22px;
+      margin-bottom: 14px; transition: border-color 0.2s;
+    }
+    .round-card:hover { border-color: #3a3a3a; }
+    .rc-header {
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap;
+      gap: 10px; margin-bottom: 12px;
+    }
+    .rc-header-left { display: flex; align-items: center; gap: 12px; }
+    .rc-num {
+      width: 30px; height: 30px; background: #2f8d46;
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 13px;
+      font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .rc-title { font-size: 15px; font-weight: 600; color: #fff; }
+    .rc-desc { font-size: 13px; color: #999; line-height: 1.75; margin-bottom: 12px; padding-left: 42px; }
+
+    /* ── PROMPT COMPARE ── */
+    .prompt-compare { display: flex; gap: 12px; flex-wrap: wrap; padding-left: 42px; }
+    .pbox {
+      flex: 1; min-width: 140px;
+      background: #1e1e1e; border: 1px solid #333;
+      border-radius: 8px; padding: 12px 14px;
+    }
+    .pbox .plbl { font-size: 10px; color: #555; margin-bottom: 5px; letter-spacing: 0.05em; }
+    .pbox .ptxt { font-size: 12px; color: #ccc; line-height: 1.65; }
+    .pbox.imp { border-color: #2f8d46; background: #1a2a1a; }
+    .pbox.imp .plbl { color: #3db360; }
+    .pbox.imp .ptxt { color: #9dd4a8; }
+
+    /* ── TAGS ── */
+    .tag-wrap { padding-left: 42px; margin-top: 10px; }
+    .tag-sublbl { font-size: 10px; color: #555; margin-bottom: 7px; letter-spacing: 0.05em; }
+    .tag {
+      display: inline-block; background: #2a2a2a;
+      border: 1px solid #3a3a3a; color: #bbb;
+      font-size: 12px; padding: 5px 13px;
+      border-radius: 20px; margin: 3px;
+    }
+    .tag.gold { background: #242000; border-color: #3a3000; color: #c9a227; }
+
+    /* ── RULES ── */
+    .rules-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .rules-list li {
+      font-size: 14px; color: #bbb;
+      padding: 12px 16px; background: #242424;
+      border-radius: 8px; border-left: 3px solid #2f8d46;
+      line-height: 1.6;
+    }
+
+    /* ── JUDGING ── */
+    .crit-item {
+      display: flex; gap: 18px;
+      padding: 16px 18px; background: #242424;
+      border: 1px solid #2e2e2e; border-radius: 9px;
+      margin-bottom: 10px; align-items: flex-start;
+      transition: border-color 0.2s;
+    }
+    .crit-item:hover { border-color: #3a3a3a; }
+    .crit-n { font-size: 30px; font-weight: 700; color: #2f8d46; min-width: 38px; line-height: 1; }
+    .crit-title { font-size: 14px; font-weight: 600; color: #e0e0e0; margin-bottom: 4px; }
+    .crit-desc { font-size: 13px; color: #888; line-height: 1.65; }
+
+    /* ── PRIZE CARDS ── */
+    .prize-grid { display: flex; gap: 14px; flex-wrap: wrap; }
+    .prize-card {
+      flex: 1; min-width: 130px;
+      background: #242424; border: 1px solid #2e2e2e;
+      border-radius: 10px; padding: 20px 16px;
+      text-align: center; transition: border-color 0.2s, transform 0.2s;
+    }
+    .prize-card:hover { transform: translateY(-2px); }
+    .prize-card.gold { border-color: #3a3000; }
+    .prize-card .emoji { font-size: 30px; margin-bottom: 8px; display: block; }
+    .prize-card .rank { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .prize-card .desc { font-size: 12px; color: #666; }
+    .prize-card.gold .rank { color: #f6c44a; }
+    .prize-card.silver .rank { color: #90a4ae; }
+    .prize-card.bronze .rank { color: #c07848; }
+
+    /* ── WINNERS SECTION ── */
+    .sheets-setup {
+      background: #1e2a1e; border: 1px solid #2f4d30;
+      border-radius: 10px; padding: 22px 24px; margin-bottom: 22px;
+    }
+    .sheets-setup h3 {
+      font-size: 14px; font-weight: 600; color: #3db360;
+      margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .input-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+    .input-row label { font-size: 12px; color: #777; width: 70px; flex-shrink: 0; }
+    .sheets-input {
+      flex: 1; min-width: 240px;
+      background: #1a1a1a; border: 1px solid #333;
+      border-radius: 7px; padding: 9px 14px;
+      font-size: 13px; color: #e0e0e0;
+      font-family: inherit; outline: none;
+      transition: border-color 0.2s;
+    }
+    .sheets-input:focus { border-color: #2f8d46; }
+    .fetch-btn {
+      width: 100%; background: #2f8d46; border: none;
+      color: #fff; padding: 10px; border-radius: 7px;
+      font-size: 13px; font-weight: 500; cursor: pointer;
+      font-family: inherit; margin-top: 6px;
+      transition: background 0.2s;
+    }
+    .fetch-btn:hover { background: #27783c; }
+    .fetch-btn:disabled { background: #2a2a2a; color: #555; cursor: not-allowed; }
+    .status-msg { font-size: 12px; margin-top: 8px; min-height: 18px; }
+    .status-msg.ok { color: #3db360; }
+    .status-msg.err { color: #e05555; }
+    .status-msg.loading { color: #888; }
+
+    .how-card {
+      background: #1a1a1a; border: 1px solid #2a3a2a;
+      border-radius: 9px; padding: 16px 18px; margin-top: 16px;
+    }
+    .how-card h4 { font-size: 12px; font-weight: 600; color: #666; margin-bottom: 12px; }
+    .how-step {
+      display: flex; gap: 12px; align-items: flex-start;
+      margin-bottom: 10px; font-size: 13px; color: #777; line-height: 1.65;
+    }
+    .how-step:last-child { margin-bottom: 0; }
+    .how-step-n {
+      width: 22px; height: 22px; background: #242424;
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 11px;
+      font-weight: 600; color: #2f8d46; flex-shrink: 0; margin-top: 1px;
+    }
+    .how-step code {
+      background: #2a2a2a; padding: 1px 6px;
+      border-radius: 4px; font-size: 11px; color: #9dd4a8; font-family: monospace;
+    }
+    .how-step strong { color: #bbb; font-weight: 500; }
+
+    /* ── PODIUM ── */
+    .podium-outer {
+      background: #242424; border: 1px solid #2e2e2e;
+      border-radius: 12px; padding: 32px 24px 0;
+    }
+    .podium-wrap { display: flex; align-items: flex-end; justify-content: center; gap: 16px; }
+    .podium-person { display: flex; flex-direction: column; align-items: center; flex: 1; max-width: 180px; }
+    .p-avatar {
+      width: 62px; height: 62px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; margin-bottom: 10px;
+      border: 3px solid #1a1a1a;
+    }
+    .p-avatar.gold { background: #2e2400; border-color: #f6c44a; box-shadow: 0 0 20px rgba(246,196,74,0.18); }
+    .p-avatar.silver { background: #1e2226; border-color: #90a4ae; }
+    .p-avatar.bronze { background: #2a1a0e; border-color: #c07848; }
+    .p-name { font-size: 14px; font-weight: 600; color: #fff; text-align: center; margin-bottom: 2px; min-height: 21px; }
+    .p-name.gold { color: #f6c44a; }
+    .p-handle { font-size: 11px; color: #555; margin-bottom: 12px; min-height: 17px; text-align: center; }
+    .p-block {
+      width: 100%; border-radius: 10px 10px 0 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 14px 8px;
+    }
+    .p-block.gold { height: 104px; background: #2a2000; }
+    .p-block.silver { height: 72px; background: #1a1e22; }
+    .p-block.bronze { height: 54px; background: #1e1208; }
+    .p-num { font-size: 30px; font-weight: 700; }
+    .p-num.gold { color: #f6c44a; }
+    .p-num.silver { color: #90a4ae; }
+    .p-num.bronze { color: #c07848; }
+    .p-lbl { font-size: 10px; color: #444; margin-top: 2px; }
+    .tba-note {
+      text-align: center; padding: 20px;
+      font-size: 12px; color: #444;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .topnav { padding: 0 16px; }
+      .event-banner { padding: 16px; }
+      .left-nav { display: none; }
+      .main-content { padding: 24px 20px; }
+    }
+    @media (max-width: 600px) {
+      .event-title { font-size: 20px; }
+      .event-logo-box { width: 56px; height: 56px; font-size: 26px; }
+      .podium-wrap { gap: 8px; }
+      .p-avatar { width: 48px; height: 48px; font-size: 22px; }
+      .p-name { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── TOP NAV ── -->
+<nav class="topnav">
+  <div class="gfg-logo">
+    <img src="gfglogo.png" alt="GeeksforGeeks" style="height:36px;width:auto;object-fit:contain;background:#fff;border-radius:6px;padding:3px 6px;" />
+  </div>
+  <div class="topnav-right">
+    <button class="theme-toggle" title="Toggle theme">☀</button>
+    <div class="avatar">U</div>
+    <button class="signin-btn">Sign In</button>
+  </div>
+</nav>
+
+<!-- ── EVENT BANNER ── -->
+<div class="event-banner">
+  <div class="banner-left">
+    <div class="event-logo-box" style="background:#1a1a1a;border:1px solid #2e2e2e;padding:4px;overflow:hidden;width:90px;height:90px;border-radius:12px;flex-shrink:0;">
+      <img src="logo.png" alt="Prompt Arena Logo" style="width:100%;height:100%;object-fit:cover;object-position:center;border-radius:8px;" />
+    </div>
+    <div>
+      <div class="event-title">Roast My Prompt Battle</div>
+      <div class="event-powered">Powered By <strong>GfG Campus Body – RIU &nbsp;|&nbsp; VYOM 2026 Annual Fest</strong></div>
+    </div>
+  </div>
+  <button class="register-btn">Register Now</button>
+</div>
+
+<!-- ── PAGE LAYOUT ── -->
+<div class="page-wrap">
+
+  <!-- LEFT NAV -->
+  <nav class="left-nav" id="leftNav">
+    <a href="#overview" class="active">Overview</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#rounds">Rounds</a>
+    <a href="#themes">Themes</a>
+    <a href="#rules">Rules</a>
+    <a href="#guidelines">Guidelines</a>
+    <a href="#judging">Judging Criteria</a>
+    <a href="#prize">Prize</a>
+    <a href="#winners">Winners</a>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- OVERVIEW -->
+    <section class="section" id="overview">
+      <div class="sec-title">Overview</div>
+      <p class="body-text">
+        Roast My Prompt Battle is an interactive competition where participants compete to create the most creative,
+        funny, or impressive AI-generated output using prompts. Organized by <strong>GfG Campus Body – RIU</strong>
+        as part of VYOM 2026 Annual Fest, this event introduces students to prompt engineering — one of the most
+        important skills in modern AI interaction.
+      </p>
+      <p class="body-text">
+        Participants will write prompts and use AI tools such as <strong>ChatGPT, DALL·E, or Midjourney</strong>
+        to generate results. The goal is to show that the quality of AI output depends on the creativity and clarity
+        of the prompt. Beginner-friendly and open to all students, even those with no coding experience.
+      </p>
+      <p class="body-text"><strong>Objectives:</strong></p>
+      <ul style="margin-left:20px;color:#bbb;font-size:14px;line-height:2.3;list-style:disc;">
+        <li>Introduce students to AI tools and prompt engineering</li>
+        <li>Encourage creativity and critical thinking</li>
+        <li>Create an interactive and entertaining tech fest activity</li>
+        <li>Promote awareness about AI technologies</li>
+      </ul>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="section" id="timeline">
+      <div class="sec-title">Timeline</div>
+      <div class="tl-wrap">
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div>
+              <div class="tl-card-title">Registrations &amp; Check-in</div>
+              <div class="tl-card-meta"><b>Start:</b> Event Day, 10:00 AM &nbsp;·&nbsp; <b>End:</b> Event Day, 10:20 AM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div>
+              <div class="tl-card-title">Round 1 — Creative Prompt Challenge</div>
+              <div class="tl-card-meta"><b>Start:</b> Event Day, 10:20 AM &nbsp;·&nbsp; <b>End:</b> Event Day, 10:40 AM</div>
+            </div>
+            <button class="vd-btn" onclick="smoothScroll('rounds')">View Details</button>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-card">
+            <div>
+              <div class="tl-card-title">Round 2 — Prompt Engineering Challenge</div>
+              <div class="tl-card-meta">
+                <b>Start:</b> Event Day, 11:00 AM &nbsp;·&nbsp; <b>End:</b> Event Day, 11:20 AM
+                &nbsp;·&nbsp; <span style="color:#3db360;">Top 20 students</span>
+              </div>
+            </div>
+            <button class="vd-btn" onclick="smoothScroll('rounds')">View Details</button>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot" style="background:#f6c44a;"></div>
+          <div class="tl-card" style="border-color:#3a3000;">
+            <div>
+              <div class="tl-card-title" style="color:#f6c44a;">Final Round — Roast Battle</div>
+              <div class="tl-card-meta">
+                <b>Start:</b> Event Day, 11:40 AM &nbsp;·&nbsp; <b>End:</b> Event Day, 12:00 PM
+                &nbsp;·&nbsp; <span style="color:#f6c44a;">Top 5 finalists</span>
+              </div>
+            </div>
+            <button class="vd-btn" onclick="smoothScroll('rounds')">View Details</button>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot" style="background:#2f8d46;"></div>
+          <div class="tl-card">
+            <div>
+              <div class="tl-card-title">Winner Announcement &amp; Prize Distribution</div>
+              <div class="tl-card-meta">
+                <b>Time:</b> Event Day, 12:00 PM &nbsp;·&nbsp;
+                <span style="color:#3db360;">3 winners crowned 🏆</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ROUNDS -->
+    <section class="section" id="rounds">
+      <div class="sec-title">Rounds</div>
+
+      <!-- Funnel -->
+      <div class="funnel-section">
+        <div class="funnel-label-row">PARTICIPANT FUNNEL</div>
+        <div class="funnel-bar" style="width:100%;background:#1d3828;">
+          ▶&nbsp; Round 1 — All Registered Students
+        </div>
+        <span class="funnel-arrow">▼ Top 20 advance</span>
+        <div class="funnel-bar" style="width:68%;background:#1a3020;">
+          ▶&nbsp; Round 2 — 20 Students
+        </div>
+        <span class="funnel-arrow">▼ Top 5 advance</span>
+        <div class="funnel-bar" style="width:38%;background:#182818;">
+          ▶&nbsp; Final Round — 5 Finalists
+        </div>
+        <span class="funnel-arrow gold">★ 3 Winners crowned</span>
+        <div class="funnel-bar gold" style="width:20%;background:#242000;color:#c9a227;">
+          🏆&nbsp; 3 Winners
+        </div>
+      </div>
+
+      <!-- Round 1 -->
+      <div class="round-card">
+        <div class="rc-header">
+          <div class="rc-header-left">
+            <div class="rc-num">1</div>
+            <div class="rc-title">Creative Prompt Challenge</div>
+          </div>
+          <div style="display:flex;gap:7px;">
+            <span class="pill pill-g">All Students</span>
+            <span class="pill pill-y">20 min</span>
+          </div>
+        </div>
+        <p class="rc-desc">
+          Participants receive a creative theme and must write a prompt, then generate output using ChatGPT or DALL·E.
+          Judged on creativity, detail in prompt, and quality of generated output. Top participants advance to Round 2.
+        </p>
+        <div class="tag-wrap">
+          <div class="tag-sublbl">EXAMPLE THEMES</div>
+          <span class="tag">Cyberpunk version of our college</span>
+          <span class="tag">Robot street food vendor in India</span>
+          <span class="tag">Futuristic classroom in 2050</span>
+        </div>
+      </div>
+
+      <!-- Round 2 -->
+      <div class="round-card">
+        <div class="rc-header">
+          <div class="rc-header-left">
+            <div class="rc-num">2</div>
+            <div class="rc-title">Prompt Engineering Challenge</div>
+          </div>
+          <div style="display:flex;gap:7px;">
+            <span class="pill pill-g">20 Students</span>
+            <span class="pill pill-y">20 min</span>
+          </div>
+        </div>
+        <p class="rc-desc">
+          Participants receive a basic prompt and must improve it by adding details, style, environment, and creativity.
+          The AI output is evaluated on prompt improvement, creativity, and visual or textual quality. Top 5 advance to Final.
+        </p>
+        <div class="prompt-compare">
+          <div class="pbox">
+            <div class="plbl">BASIC PROMPT</div>
+            <div class="ptxt">"Create a robot."</div>
+          </div>
+          <div class="pbox imp">
+            <div class="plbl">IMPROVED PROMPT</div>
+            <div class="ptxt">"Create a highly detailed futuristic robot chef cooking samosas in a neon cyberpunk street market at night."</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Round 3 Final -->
+      <div class="round-card" style="border-color:#3a3000;">
+        <div class="rc-header">
+          <div class="rc-header-left">
+            <div class="rc-num" style="background:#e8a800;color:#1a1000;">★</div>
+            <div class="rc-title" style="color:#f6c44a;">Surprise Challenge — Final Roast</div>
+          </div>
+          <div style="display:flex;gap:7px;">
+            <span class="pill pill-r">5 Finalists</span>
+            <span class="pill pill-y">15 min</span>
+          </div>
+        </div>
+        <p class="rc-desc">
+          Finalists receive a fun or unusual prompt challenge and present their prompt and generated result live on stage.
+          Audience engagement and crowd voting are included. 3 winners announced at the end.
+        </p>
+        <div class="tag-wrap">
+          <div class="tag-sublbl">EXAMPLE CHALLENGES</div>
+          <span class="tag gold">Turn your college into a sci-fi movie poster</span>
+          <span class="tag gold">Funniest AI meme about exams</span>
+          <span class="tag gold">AI-generated startup idea</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- THEMES -->
+    <section class="section" id="themes">
+      <div class="sec-title">Themes</div>
+      <p class="body-text">
+        Each round introduces a unique theme designed to test creativity, technical prompting ability, and humor.
+        Themes are revealed at the start of each round to ensure a fair and exciting competition.
+      </p>
+      <div style="margin-top:14px;">
+        <span class="tag">Cyberpunk India</span>
+        <span class="tag">Futuristic Classroom</span>
+        <span class="tag">Robot Street Vendor</span>
+        <span class="tag">Sci-Fi Movie Poster</span>
+        <span class="tag">AI Exam Memes</span>
+        <span class="tag">AI Startup Ideas</span>
+        <span class="tag">Prompt Improvement</span>
+        <span class="tag">Surprise Roast</span>
+      </div>
+    </section>
+
+    <!-- RULES -->
+    <section class="section" id="rules">
+      <div class="sec-title">Rules</div>
+      <ul class="rules-list">
+        <li>No personal attacks, hate speech, or offensive language of any kind</li>
+        <li>Humor must focus on technology and developer culture only</li>
+        <li>Participants must keep their roast strictly within the time limit</li>
+        <li>Judges' or students' poll decision will be final and binding</li>
+        <li>Individual participation only — solo registration required</li>
+        <li>AI tools must be used as specified per round (ChatGPT, DALL·E, or Midjourney)</li>
+      </ul>
+    </section>
+
+    <!-- GUIDELINES -->
+    <section class="section" id="guidelines">
+      <div class="sec-title">Guidelines</div>
+      <p class="body-text">
+        This event is designed to be fun, beginner-friendly, and open to all students — even those with
+        no prior coding or AI experience. Participants are encouraged to be creative, explore AI tools
+        freely, and engage with the audience confidently.
+      </p>
+      <p class="body-text">
+        All prompts and generated outputs will be displayed publicly on the projector screen. Participants
+        should ensure their content is appropriate for a college audience and strictly within the theme of
+        technology and developer culture. Any participant found violating the spirit of the event may be
+        disqualified at the judges' discretion.
+      </p>
+    </section>
+
+    <!-- JUDGING CRITERIA -->
+    <section class="section" id="judging">
+      <div class="sec-title">Judging Criteria</div>
+      <div class="crit-item">
+        <div class="crit-n">01</div>
+        <div>
+          <div class="crit-title">Creativity &amp; Prompt Design</div>
+          <div class="crit-desc">How unique and clever the participant's prompt is. Judges look at how creatively the prompt is structured to guide the AI toward an interesting or unexpected result.</div>
+        </div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-n">02</div>
+        <div>
+          <div class="crit-title">Humor &amp; Audience Engagement</div>
+          <div class="crit-desc">How entertaining the prompt and its output are for the audience. Participants who make the crowd laugh, react, or stay engaged will score higher.</div>
+        </div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-n">03</div>
+        <div>
+          <div class="crit-title">Technical Relevance</div>
+          <div class="crit-desc">How well the prompt demonstrates understanding of AI prompting techniques — clear instructions, context, constraints, and structured prompts.</div>
+        </div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-n">04</div>
+        <div>
+          <div class="crit-title">Confidence &amp; Delivery</div>
+          <div class="crit-desc">How confidently the participant presents their prompt, explains their idea, and interacts with the audience during the battle.</div>
+        </div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-n">05</div>
+        <div>
+          <div class="crit-title">Quality of AI Output</div>
+          <div class="crit-desc">How effective the prompt is in generating a meaningful, impressive, or funny AI response.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRIZE -->
+    <section class="section" id="prize">
+      <div class="sec-title">Prize</div>
+      <div class="prize-grid">
+        <div class="prize-card gold">
+          <span class="emoji">🥇</span>
+          <div class="rank">1st Place</div>
+          <div class="desc">Certificate + GfG Goodies</div>
+        </div>
+        <div class="prize-card silver">
+          <span class="emoji">🥈</span>
+          <div class="rank">2nd Place</div>
+          <div class="desc">Certificate + GfG Goodies</div>
+        </div>
+        <div class="prize-card bronze">
+          <span class="emoji">🥉</span>
+          <div class="rank">3rd Place</div>
+          <div class="desc">Certificate + GfG Goodies</div>
+        </div>
+      </div>
+      <p class="body-text" style="margin-top:14px;font-size:12px;color:#555;">
+        All participants receive a participation certificate. Top performers may be featured on GfG Campus Body social media.
+      </p>
+    </section>
+
+    <!-- WINNERS -->
+    <section class="section" id="winners">
+      <div class="sec-title">Winners</div>
+
+      <!-- Podium — visible to everyone -->
+      <div class="podium-outer">
+        <div class="podium-wrap">
+          <!-- 2nd -->
+          <div class="podium-person">
+            <div class="p-avatar silver">🥈</div>
+            <div class="p-name" id="name2">—</div>
+            <div class="p-handle" id="handle2">2nd Place</div>
+            <div class="p-block silver">
+              <span class="p-num silver">2</span>
+              <span class="p-lbl">2nd Place</span>
+            </div>
+          </div>
+          <!-- 1st -->
+          <div class="podium-person">
+            <div class="p-avatar gold">🥇</div>
+            <div class="p-name gold" id="name1">—</div>
+            <div class="p-handle" id="handle1">1st Place</div>
+            <div class="p-block gold">
+              <span class="p-num gold">1</span>
+              <span class="p-lbl">1st Place</span>
+            </div>
+          </div>
+          <!-- 3rd -->
+          <div class="podium-person">
+            <div class="p-avatar bronze">🥉</div>
+            <div class="p-name" id="name3">—</div>
+            <div class="p-handle" id="handle3">3rd Place</div>
+            <div class="p-block bronze">
+              <span class="p-num bronze">3</span>
+              <span class="p-lbl">3rd Place</span>
+            </div>
+          </div>
+        </div>
+        <div class="tba-note" id="tbNote">
+          Winners will be announced after the event. Stay tuned! 🏆
+        </div>
+      </div>
+
+      <!-- ADMIN LOCK — hidden trigger, only organizer knows this exists -->
+      <!-- Triple-click the Winners heading to open admin panel -->
+      <div id="adminTriggerHint" style="margin-top:10px;text-align:right;">
+        <span id="adminTrigger" title="Organizer access"
+          style="font-size:11px;color:#2a2a2a;cursor:default;user-select:none;letter-spacing:0.02em;">
+          ⚙ organizer
+        </span>
+      </div>
+
+      <!-- ADMIN PANEL — hidden by default -->
+      <div id="adminPanel" style="display:none;margin-top:16px;">
+        <!-- Password gate -->
+        <div id="adminGate" class="sheets-setup">
+          <h3 style="color:#888;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <rect x="3" y="6" width="8" height="6" rx="1.5" fill="#555"/>
+              <path d="M5 6V4.5a2 2 0 014 0V6" stroke="#555" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+            </svg>
+            Organizer Access
+          </h3>
+          <div class="input-row">
+            <label style="color:#666;">Password</label>
+            <input class="sheets-input" id="adminPass" type="password"
+              placeholder="Enter organizer password…"
+              style="border-color:#333;" />
+          </div>
+          <button class="fetch-btn" onclick="unlockAdmin()"
+            style="background:#333;color:#aaa;margin-top:6px;">
+            Unlock Admin Panel
+          </button>
+          <div class="status-msg err" id="passErr" style="min-height:16px;"></div>
+        </div>
+
+        <!-- Sheets setup — shown after correct password -->
+        <div id="adminContent" style="display:none;">
+          <div class="sheets-setup">
+            <h3>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <rect x="2" y="1" width="12" height="14" rx="2" fill="#0f9d58"/>
+                <rect x="4" y="4" width="8" height="1.5" rx="0.75" fill="white" fill-opacity="0.7"/>
+                <rect x="4" y="7" width="8" height="1.5" rx="0.75" fill="white" fill-opacity="0.7"/>
+                <rect x="4" y="10" width="5" height="1.5" rx="0.75" fill="white" fill-opacity="0.7"/>
+              </svg>
+              Connect Google Sheet — Auto-load winner names
+            </h3>
+            <div class="input-row">
+              <label>Sheet URL</label>
+              <input class="sheets-input" id="sheetUrl" type="url"
+                placeholder="Paste your published Google Sheet CSV URL here…" />
+            </div>
+            <button class="fetch-btn" id="fetchBtn" onclick="fetchWinners()">
+              ↓ Load Winners from Google Sheet
+            </button>
+            <div class="status-msg" id="statusMsg"></div>
+
+            <div class="how-card">
+              <h4>📄 HOW TO SET UP YOUR GOOGLE SHEET (3 STEPS)</h4>
+              <div class="how-step">
+                <div class="how-step-n">1</div>
+                <div>Create a Google Sheet with columns: <code>Place</code>, <code>Name</code>, <code>Handle</code> — fill rows for 1st, 2nd, 3rd after the event.</div>
+              </div>
+              <div class="how-step">
+                <div class="how-step-n">2</div>
+                <div>Go to <strong>File → Share → Publish to web</strong>, choose <code>Sheet1</code> + <code>CSV</code>, click Publish — copy the URL.</div>
+              </div>
+              <div class="how-step">
+                <div class="how-step-n">3</div>
+                <div>Paste the URL above and click <strong>Load Winners</strong> — the podium updates instantly 🏆</div>
+              </div>
+            </div>
+
+            <!-- Lock back button -->
+            <button onclick="lockAdmin()"
+              style="background:none;border:1px solid #333;color:#555;padding:7px 16px;border-radius:7px;font-size:12px;cursor:pointer;font-family:inherit;margin-top:12px;">
+              🔒 Lock Admin Panel
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<!-- ── JAVASCRIPT ── -->
+<script>
+  // ── SMOOTH SCROLL ──
+  function smoothScroll(id) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ── LEFT NAV CLICK ──
+  document.querySelectorAll('.left-nav a').forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href').slice(1);
+      smoothScroll(targetId);
+      document.querySelectorAll('.left-nav a').forEach(a => a.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // ── SCROLL SPY ──
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('.left-nav a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.left-nav a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  // ── ADMIN PANEL — secret trigger ──
+  // The "⚙ organizer" text in bottom-right of Winners section opens the panel on click
+  // It's styled to be almost invisible (#2a2a2a on #1a1a1a bg) — only organizer knows it's there
+  const ADMIN_PASSWORD = 'gfg@vyom2026'; // ← CHANGE THIS to your own password
+
+  document.getElementById('adminTrigger').addEventListener('click', () => {
+    const panel = document.getElementById('adminPanel');
+    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    document.getElementById('adminPass').value = '';
+    document.getElementById('passErr').textContent = '';
+    document.getElementById('adminContent').style.display = 'none';
+    document.getElementById('adminGate').style.display = 'block';
+  });
+
+  function unlockAdmin() {
+    const entered = document.getElementById('adminPass').value;
+    if (entered === ADMIN_PASSWORD) {
+      document.getElementById('adminGate').style.display = 'none';
+      document.getElementById('adminContent').style.display = 'block';
+    } else {
+      document.getElementById('passErr').textContent = '✗ Incorrect password.';
+      document.getElementById('adminPass').value = '';
+      document.getElementById('adminPass').focus();
+    }
+  }
+
+  function lockAdmin() {
+    document.getElementById('adminPanel').style.display = 'none';
+    document.getElementById('adminContent').style.display = 'none';
+    document.getElementById('adminGate').style.display = 'block';
+    document.getElementById('adminPass').value = '';
+  }
+
+  // Allow Enter key in password field
+  document.getElementById('adminPass').addEventListener('keydown', e => {
+    if (e.key === 'Enter') unlockAdmin();
+  });
+
+  // ── GOOGLE SHEETS WINNER FETCH ──
+  async function fetchWinners() {
+    const url = document.getElementById('sheetUrl').value.trim();
+    const btn = document.getElementById('fetchBtn');
+    const msg = document.getElementById('statusMsg');
+
+    if (!url) {
+      msg.className = 'status-msg err';
+      msg.textContent = '⚠ Please paste a valid Google Sheet CSV URL.';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Loading…';
+    msg.className = 'status-msg loading';
+    msg.textContent = 'Fetching data from Google Sheets…';
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Could not fetch sheet. Ensure it is published as CSV.');
+
+      const text = await res.text();
+      const rows = text.trim().split('\n').map(r =>
+        r.split(',').map(c => c.trim().replace(/^"|"$/g, ''))
+      );
+      // Expected columns: Place, Name, Handle
+      const data = {};
+      for (let i = 1; i < rows.length; i++) {
+        const place  = rows[i][0];
+        const name   = rows[i][1] || '—';
+        const handle = rows[i][2] || '';
+        if (place === '1' || place === '1st') data[1] = { name, handle };
+        if (place === '2' || place === '2nd') data[2] = { name, handle };
+        if (place === '3' || place === '3rd') data[3] = { name, handle };
+      }
+
+      let filled = 0;
+      [1, 2, 3].forEach(p => {
+        if (data[p]) {
+          document.getElementById('name' + p).textContent = data[p].name;
+          document.getElementById('handle' + p).textContent =
+            data[p].handle || ['', '1st Place', '2nd Place', '3rd Place'][p];
+          filled++;
+        }
+      });
+
+      if (filled > 0) {
+        document.getElementById('tbNote').style.display = 'none';
+        msg.className = 'status-msg ok';
+        msg.textContent = `✓ ${filled} winner(s) loaded successfully!`;
+      } else {
+        msg.className = 'status-msg err';
+        msg.textContent = 'Sheet found but no data detected. Check columns: Place, Name, Handle';
+      }
+    } catch (err) {
+      msg.className = 'status-msg err';
+      msg.textContent = 'Error: ' + err.message;
+    }
+
+    btn.disabled = false;
+    btn.textContent = '↓ Load Winners from Google Sheet';
+  }
+
+  document.getElementById('sheetUrl').addEventListener('keydown', e => {
+    if (e.key === 'Enter') fetchWinners();
+  });
+</script>
+
+</body>
+</html>
